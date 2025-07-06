@@ -263,3 +263,4 @@ src/FreeSnow.Blazor.Server.Tiered/Logs/*
 
 # Use abp install-libs to restore.
 **/wwwroot/libs/*
+/src/FreeSnow.Web/appsettings.Development.json

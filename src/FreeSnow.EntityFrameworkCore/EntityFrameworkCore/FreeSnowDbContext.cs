@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FreeSnow.Entities;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -50,6 +51,16 @@ public class FreeSnowDbContext :
     // Tenant Management
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
+
+    #region 拼团
+    public DbSet<GroupPurchase> GroupPurchase { get; set; }
+
+    #endregion
+
+    #region 社交
+    public DbSet<Post> Post { get; set; }
+
+    #endregion
 
     #endregion
 
