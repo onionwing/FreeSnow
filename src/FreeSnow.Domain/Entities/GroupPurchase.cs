@@ -11,7 +11,6 @@ using Volo.Abp.Identity;
 
 namespace FreeSnow.Entities
 {
-    public class GroupPurchase : AuditedAggregateRoot<Guid>
     public class GroupPurchase : FullAuditedAggregateRoot<Guid>, IHasConcurrencyStamp
     {
         //ToDo 这几张表的关系需要配置，在EF里面要配置一对多和多对多的关系
@@ -24,6 +23,8 @@ namespace FreeSnow.Entities
         public DateTime StartTime { get; set; }    // 开始时间
         public DateTime EndTime { get; set; }      // 结束时间
         public IdentityUser Creator { get; set; }      // 团长
+        public Guid? CreatorId { get; private set; }      // 团长ID
+
         public GroupStatus Status { get; set; }    // 拼团状态
         public List<IdentityUser> ParticipantIds { get; set; } = new List<IdentityUser>(); // 参团用户ID列表
         /// <summary>
@@ -73,7 +74,7 @@ namespace FreeSnow.Entities
                 Status = GroupStatus.InProgress
             };
 
-            group.ParticipantIds.Add(creatorId);
+            //group.ParticipantIds.Add(creatorId);
             return group;
         }
 
@@ -86,10 +87,10 @@ namespace FreeSnow.Entities
             if (Status != GroupStatus.InProgress)
                 throw new BusinessException("拼团已结束，无法加入");
 
-            if (ParticipantIds.Any(p => p == userId))
-                throw new BusinessException("用户已参与此拼团");
+            //if (ParticipantIds.Any(p => p == userId))
+            //    throw new BusinessException("用户已参与此拼团");
 
-            ParticipantIds.Add(userId);
+            //ParticipantIds.Add(userId);
 
             // 检查是否达到目标人数
             if (ParticipantIds.Count >= TargetNumber)
