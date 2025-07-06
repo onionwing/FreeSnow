@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Entities.Auditing;
@@ -10,25 +9,26 @@ using Volo.Abp.Domain.Entities.Auditing;
 namespace FreeSnow.Entities
 {
     /// <summary>
-    /// 帖子
+    /// 交通实体类
     /// </summary>
-    public class Post:FullAuditedAggregateRoot<Guid>
+    public class Transportation: AuditedAggregateRoot<Guid>
     {
         /// <summary>
-        /// 标题
+        /// 公司或个体名称
         /// </summary>
-        public string Title { get; set; }
+        public string CompanyName { get; set; }
         /// <summary>
-        /// 内容
+        /// 出发地
         /// </summary>
-        public string Body {get;set; }
+        public string DeparturePoint { get; set; }
         /// <summary>
-        /// Tag标签
+        /// 目的地
         /// </summary>
-        public List<Tag> Tags { get; set; }=new List<Tag>();
+        public string Destination { get; set; }
         /// <summary>
-        /// 关联的团拼
+        /// 途径地点
         /// </summary>
-        public List<GroupPurchase> GroupPurchases { get; set; } = new List<GroupPurchase>();
+        public List<RouteLocation> RouteLocations { get; set; }
+
     }
 }
