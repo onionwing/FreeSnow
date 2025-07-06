@@ -41,15 +41,17 @@ public class FreeSnowEntityFrameworkCoreModule : AbpModule
     {
         context.Services.AddAbpDbContext<FreeSnowDbContext>(options =>
         {
-                /* Remove "includeAllEntities: true" to create
-                 * default repositories only for aggregate roots */
+            /* Remove "includeAllEntities: true" to create
+             * default repositories only for aggregate roots */
+            //默认情况下，AbpDbContext会为所有实体创建默认的仓储。
             options.AddDefaultRepositories(includeAllEntities: true);
         });
 
         Configure<AbpDbContextOptions>(options =>
         {
-                /* The main point to change your DBMS.
-                 * See also FreeSnowMigrationsDbContextFactory for EF Core tooling. */
+            /* The main point to change your DBMS.
+             * See also FreeSnowMigrationsDbContextFactory for EF Core tooling. */
+            //使用PostgreSQL作为数据库
             options.UseNpgsql();
         });
 
