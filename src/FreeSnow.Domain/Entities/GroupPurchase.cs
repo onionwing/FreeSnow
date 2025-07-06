@@ -10,7 +10,6 @@ namespace FreeSnow.Entities
 {
     public class GroupPurchase : AggregateRoot<Guid>
     {
-        public int Id { get; set; }
         public string Title { get; set; }         // 拼团标题
         public string Description { get; set; }    // 描述
         public decimal OriginalPrice { get; set; } // 原价
@@ -21,6 +20,11 @@ namespace FreeSnow.Entities
         public DateTime EndTime { get; set; }      // 结束时间
         public string CreatorId { get; set; }      // 团长ID
         public GroupStatus Status { get; set; }    // 拼团状态
-        public List<string> Participants { get; set; } = new List<string>(); // 参团用户ID列表
+        //这里不知道怎么对应用户，找不到用户所在的实体类，假设是Guid类型
+        public List<Guid> ParticipantIds { get; set; } = new List<Guid>(); // 参团用户ID列表
+        /// <summary>
+        /// 关联的帖子列表
+        /// </summary>
+        public List<Post> Posts { get; set; }
     }
 }
