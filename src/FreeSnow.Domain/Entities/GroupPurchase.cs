@@ -23,7 +23,6 @@ namespace FreeSnow.Entities
         public DateTime StartTime { get; set; }    // 开始时间
         public DateTime EndTime { get; set; }      // 结束时间
         public IdentityUser Creator { get; set; }      // 团长
-        public Guid? CreatorId { get; private set; }      // 团长ID
 
         public GroupStatus Status { get; set; }    // 拼团状态
         public List<IdentityUser> ParticipantIds { get; set; } = new List<IdentityUser>(); // 参团用户ID列表
@@ -57,7 +56,7 @@ namespace FreeSnow.Entities
         /// <param name="targetNumber"></param>
         /// <param name="endTime"></param>
         /// <returns></returns>
-        public static GroupPurchase CreateGroupPurchase(Guid creatorId, string title, string description, decimal originalPrice, decimal groupPrice, int targetNumber, DateTime endTime)
+        public static GroupPurchase CreateGroupPurchase(IdentityUser creator, string title, string description, decimal originalPrice, decimal groupPrice, int targetNumber, DateTime endTime)
         {
 
             var group = new GroupPurchase
@@ -70,27 +69,27 @@ namespace FreeSnow.Entities
                 CurrentNumber = 1, // 创建时团长自动加入
                 StartTime = DateTime.Now,
                 EndTime = endTime,
-                CreatorId = creatorId,
+                Creator = creator,
                 Status = GroupStatus.InProgress
             };
 
-            //group.ParticipantIds.Add(creatorId);
+            group.ParticipantIds.Add(creator);
             return group;
         }
 
 
         // 加入拼团
-        public void Join(Guid userId)
+        public void Join(IdentityUser  user)
         {
             if (IsExpired) throw new BusinessException("拼团已过期");
 
             if (Status != GroupStatus.InProgress)
                 throw new BusinessException("拼团已结束，无法加入");
 
-            //if (ParticipantIds.Any(p => p == userId))
-            //    throw new BusinessException("用户已参与此拼团");
+            if (ParticipantIds.Any(p => p.Id == user.Id))
+                throw new BusinessException("用户已参与此拼团");
 
-            //ParticipantIds.Add(userId);
+            ParticipantIds.Add(user);
 
             // 检查是否达到目标人数
             if (ParticipantIds.Count >= TargetNumber)
